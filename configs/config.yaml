@@ -1,0 +1,17 @@
+server:
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+data:
+  casbin:
+    driver: mysql
+    source: root:12345678@tcp(127.0.0.1:13306)/casbin?parseTime=True&loc=Local
+  redis:
+    addr: 127.0.0.1:16379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+token:
+  secret: "nihao"
+  expiration: 6912000s
+registry:
+  addr: "127.0.0.1:2379"

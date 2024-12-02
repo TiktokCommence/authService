@@ -1,0 +1,74 @@
+syntax="proto3";
+
+package auth.v1;
+
+option go_package="authService/api/auth/v1";
+
+service AuthService {
+  //  分发令牌
+  rpc DeliverTokenByRPC(DeliverTokenReq) returns (DeliveryResp) {}
+  //  鉴权(判断请求能否通过)
+  rpc VerifyTokenByRPC(VerifyTokenReq) returns (VerifyResp) {}
+
+  rpc AssignRole(AssignRoleReq) returns (AssignResp) {}
+  rpc RemoveRole(RemoveRoleReq) returns (RemoveResp) {}
+}
+
+message DeliverTokenReq {
+  uint64  user_id= 1;
+}
+
+message VerifyTokenReq {
+  optional string token = 1;
+  Obj obj= 2;
+  Act act= 3;
+}
+enum Role {
+  NormalUser  = 0; //正常用户
+  Merchant    = 1;   //商家
+  BlackLister = 2;
+}
+enum Obj {
+  User = 0;
+  Item = 1;
+  Order = 2;
+  PayService=3;
+  Shopping_cart = 4;
+}
+enum Act {
+    Create = 0;
+    Login = 1;
+    Logout = 2;
+    Update = 3;
+    Delete = 4;
+    Get = 5;
+    Clear = 6;
+    Pay = 7;
+    Cancel = 8;
+    Settle = 9;
+}
+
+
+message AssignRoleReq {
+  uint64  user_id= 1;
+  Role role = 2;
+}
+message RemoveRoleReq {
+  uint64  user_id= 1;
+  Role role = 2;
+}
+
+
+message DeliveryResp {
+  string token = 1;
+}
+
+message VerifyResp {
+  bool res = 1;
+}
+message AssignResp {
+  bool res = 1;
+}
+message RemoveResp {
+  bool res = 1;
+}
